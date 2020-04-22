@@ -44,9 +44,9 @@ model.add(Dense(3, activation="softmax"))
 
 model.compile(optimizer=Adam(lr=lr), loss="categorical_crossentropy", metrics=["accuracy"])
 
-log_dir = "logs\\fit\\" + f"lr={lr} dense ({dense1}, {dense2}) drop ({drop1}, {drop2})"
+log_dir = "logs\\fit\\" + f"lr={lr} dense ({dense1}, {dense2}) drop ({drop1}, {drop2})" + datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%D")
 tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir)
-model_saver = tf.keras.callbacks.ModelCheckpoint('saved_model', monitor='val_loss', verbose=1, save_best_only=True, save_weights_only=False, mode='auto', save_freq='epoch')
+model_saver = tf.keras.callbacks.ModelCheckpoint('saved_model' + datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%D"), monitor='val_loss', verbose=1, save_best_only=True, save_weights_only=False, mode='auto', save_freq='epoch')
 
 model.fit(X_train, y_train, validation_data=(X_val, y_val), epochs=400, callbacks=[tensorboard_callback, model_saver])
 
