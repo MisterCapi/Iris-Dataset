@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 import seaborn as sns
 import pickle
 import numpy as np
-import datetime
+import time
 
 df = sns.load_dataset("iris")
 
@@ -44,9 +44,9 @@ model.add(Dense(3, activation="softmax"))
 
 model.compile(optimizer=Adam(lr=lr), loss="categorical_crossentropy", metrics=["accuracy"])
 
-log_dir = "logs\\fit\\" + f"lr={lr} dense ({dense1}, {dense2}) drop ({drop1}, {drop2})" + datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%D")
+log_dir = "logs\\fit\\" + f"lr={lr} dense ({dense1}, {dense2}) drop ({drop1}, {drop2}) " + str(floor(time.time()))
 tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir)
-model_saver = tf.keras.callbacks.ModelCheckpoint('saved_model' + datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%D"), monitor='val_loss', verbose=1, save_best_only=True, save_weights_only=False, mode='auto', save_freq='epoch')
+model_saver = tf.keras.callbacks.ModelCheckpoint(f'saved_models\\{floot(time.time())}', monitor='val_loss', verbose=1, save_best_only=True, save_weights_only=False, mode='auto', save_freq='epoch')
 
 model.fit(X_train, y_train, validation_data=(X_val, y_val), epochs=400, callbacks=[tensorboard_callback, model_saver])
 
